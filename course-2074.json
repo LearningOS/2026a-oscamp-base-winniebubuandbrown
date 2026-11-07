@@ -2,8 +2,8 @@
   "schema": 1,
   "courseId": 2074,
   "repository": "LearningOS/2026a-oscamp-base-winniebubuandbrown",
-  "commit": "3b60db41e43b4cc9a7606696eb03586f19d6313e",
-  "score": 7,
+  "commit": "2588355412be3a45366dd6d63b6d7081d2927a64",
+  "score": 11,
   "totalScore": 100,
   "exercises": [
     {
@@ -23,9 +23,9 @@
     {
       "name": "channel",
       "max": 4,
-      "score": 0,
-      "status": "fail",
-      "exitCode": 101
+      "score": 4,
+      "status": "pass",
+      "exitCode": 0
     },
     {
       "name": "process_pipe",
@@ -176,9 +176,9 @@
     }
   ],
   "student": "winniebubuandbrown",
-  "runId": "42357725317",
+  "runId": "42362298760",
   "runAttempt": "1",
   "upload": {
-    "status": "accepted"
+    "status": "pending"
   }
 }
