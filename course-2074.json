@@ -2,8 +2,8 @@
   "schema": 1,
   "courseId": 2074,
   "repository": "LearningOS/2026a-oscamp-base-winniebubuandbrown",
-  "commit": "73edeea5d27e3bcc00440830a25ba485cc51d396",
-  "score": 39,
+  "commit": "b97a588a3fff16309ac69029601f06c1665fff1c",
+  "score": 51,
   "totalScore": 100,
   "exercises": [
     {
@@ -72,23 +72,23 @@
     {
       "name": "atomic_counter",
       "max": 4,
-      "score": 0,
-      "status": "fail",
-      "exitCode": 101
+      "score": 4,
+      "status": "pass",
+      "exitCode": 0
     },
     {
       "name": "atomic_ordering",
       "max": 4,
-      "score": 0,
-      "status": "fail",
-      "exitCode": 101
+      "score": 4,
+      "status": "pass",
+      "exitCode": 0
     },
     {
       "name": "spinlock",
       "max": 4,
-      "score": 0,
-      "status": "fail",
-      "exitCode": 101
+      "score": 4,
+      "status": "pass",
+      "exitCode": 0
     },
     {
       "name": "spinlock_guard",
@@ -176,9 +176,9 @@
     }
   ],
   "student": "winniebubuandbrown",
-  "runId": "42613801811",
+  "runId": "42617295434",
   "runAttempt": "1",
   "upload": {
-    "status": "accepted"
+    "status": "pending"
   }
 }
