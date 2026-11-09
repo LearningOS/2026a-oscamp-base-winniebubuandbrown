@@ -2,8 +2,8 @@
   "schema": 1,
   "courseId": 2074,
   "repository": "LearningOS/2026a-oscamp-base-winniebubuandbrown",
-  "commit": "3c4e4a0f691aaf5a6e97b839c0ab3634a37fdc66",
-  "score": 19,
+  "commit": "4545258ec89d983a9a2cc608dc7abd2a95555625",
+  "score": 29,
   "totalScore": 100,
   "exercises": [
     {
@@ -44,16 +44,16 @@
     {
       "name": "bump_allocator",
       "max": 5,
-      "score": 0,
-      "status": "fail",
-      "exitCode": 101
+      "score": 5,
+      "status": "pass",
+      "exitCode": 0
     },
     {
       "name": "free_list_allocator",
       "max": 5,
-      "score": 0,
-      "status": "fail",
-      "exitCode": 101
+      "score": 5,
+      "status": "pass",
+      "exitCode": 0
     },
     {
       "name": "syscall_wrapper",
@@ -176,9 +176,9 @@
     }
   ],
   "student": "winniebubuandbrown",
-  "runId": "42591575195",
+  "runId": "42606945947",
   "runAttempt": "1",
   "upload": {
-    "status": "accepted"
+    "status": "pending"
   }
 }
