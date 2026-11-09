@@ -49,6 +49,7 @@ pub trait File: Send + Sync {
 /// File descriptor table
 pub struct FdTable {
     // TODO: Design the internal structure
+    files: Vec<Option<Arc<dyn File>>>,
     // Hint: use Vec<Option<Arc<dyn File>>>
     //       the index is the fd number, None means the fd is closed or unallocated
 }
@@ -57,7 +58,10 @@ impl FdTable {
     /// Create an empty fd table
     pub fn new() -> Self {
         // TODO
-        todo!()
+        //todo!()
+        Self {
+        files: Vec::new(),
+        }
     }
 
     /// Allocate a new fd, return the fd number.
@@ -65,25 +69,50 @@ impl FdTable {
     /// Prefers reusing the smallest closed fd number; if no free slot, appends to the end.
     pub fn alloc(&mut self, file: Arc<dyn File>) -> usize {
         // TODO
-        todo!()
+        //todo!()
+        if let Some(fd) = self.files.iter().position(|slot| slot.is_none()) {
+            self.files[fd] = Some(file);
+            return fd;
+        }
+
+        // 没有空闲位置，就追加到末尾
+        let fd = self.files.len();
+        self.files.push(Some(file));
+        fd
     }
 
     /// Get the file object for an fd. Returns None if the fd doesn't exist or is closed.
     pub fn get(&self, fd: usize) -> Option<Arc<dyn File>> {
         // TODO
-        todo!()
+        //todo!()
+        self.files
+            .get(fd)
+            .and_then(|slot| slot.as_ref())
+            .map(Arc::clone)
     }
 
     /// Close an fd. Returns true on success, false if the fd doesn't exist or is already closed.
     pub fn close(&mut self, fd: usize) -> bool {
         // TODO
-        todo!()
+        //todo!()
+        if let Some(slot) = self.files.get_mut(fd) {
+            if slot.is_some() {
+                *slot = None;
+                return true;
+            }
+        }
+
+        false
     }
 
     /// Return the number of currently allocated fds (excluding closed ones)
     pub fn count(&self) -> usize {
         // TODO
-        todo!()
+        //todo!()
+        self.files
+            .iter()
+            .filter(|slot| slot.is_some())
+            .count()
     }
 }
 
