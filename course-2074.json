@@ -2,8 +2,8 @@
   "schema": 1,
   "courseId": 2074,
   "repository": "LearningOS/2026a-oscamp-base-winniebubuandbrown",
-  "commit": "2588355412be3a45366dd6d63b6d7081d2927a64",
-  "score": 11,
+  "commit": "baa1f749664f63bb941658221c471852890b947a",
+  "score": 15,
   "totalScore": 100,
   "exercises": [
     {
@@ -30,9 +30,9 @@
     {
       "name": "process_pipe",
       "max": 4,
-      "score": 0,
-      "status": "fail",
-      "exitCode": 101
+      "score": 4,
+      "status": "pass",
+      "exitCode": 0
     },
     {
       "name": "mem_primitives",
@@ -176,9 +176,9 @@
     }
   ],
   "student": "winniebubuandbrown",
-  "runId": "42362298760",
+  "runId": "42588586772",
   "runAttempt": "1",
   "upload": {
-    "status": "accepted"
+    "status": "pending"
   }
 }
