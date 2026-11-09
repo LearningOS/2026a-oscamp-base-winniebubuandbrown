@@ -2,8 +2,8 @@
   "schema": 1,
   "courseId": 2074,
   "repository": "LearningOS/2026a-oscamp-base-winniebubuandbrown",
-  "commit": "4545258ec89d983a9a2cc608dc7abd2a95555625",
-  "score": 29,
+  "commit": "6459dae5fbe331f03816a6815f32f78f4caa763a",
+  "score": 34,
   "totalScore": 100,
   "exercises": [
     {
@@ -58,9 +58,9 @@
     {
       "name": "syscall_wrapper",
       "max": 5,
-      "score": 0,
-      "status": "fail",
-      "exitCode": 101
+      "score": 5,
+      "status": "pass",
+      "exitCode": 0
     },
     {
       "name": "fd_table",
@@ -176,7 +176,7 @@
     }
   ],
   "student": "winniebubuandbrown",
-  "runId": "42606945947",
+  "runId": "42610828671",
   "runAttempt": "1",
   "upload": {
     "status": "pending"
