@@ -2,8 +2,8 @@
   "schema": 1,
   "courseId": 2074,
   "repository": "LearningOS/2026a-oscamp-base-winniebubuandbrown",
-  "commit": "cab9f14b1163fe98e850aa1674723d585b8e5d37",
-  "score": 60,
+  "commit": "c4df7ca1acc9a442ac6abca5fe9099d52e12ac46",
+  "score": 66,
   "totalScore": 100,
   "exercises": [
     {
@@ -107,9 +107,9 @@
     {
       "name": "stack_coroutine",
       "max": 6,
-      "score": 0,
-      "status": "fail",
-      "exitCode": 101
+      "score": 6,
+      "status": "pass",
+      "exitCode": 0
     },
     {
       "name": "green_threads",
@@ -176,9 +176,9 @@
     }
   ],
   "student": "winniebubuandbrown",
-  "runId": "42782507885",
+  "runId": "42785296250",
   "runAttempt": "1",
   "upload": {
-    "status": "accepted"
+    "status": "pending"
   }
 }
