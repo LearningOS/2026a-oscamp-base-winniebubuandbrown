@@ -137,7 +137,28 @@ impl Scheduler {
     ///    `sp` must be 16-byte aligned (e.g. `(stack_top - 16) & !15` to leave headroom).
     /// 3. Push a `GreenThread` with this context, state `Ready`, and `entry` stored for the wrapper to call.
     pub fn spawn(&mut self, entry: extern "C" fn()) {
-        todo!("alloc stack, init ctx with ra=thread_wrapper and aligned sp, push GreenThread(Ready, entry)")
+        //todo!("alloc stack, init ctx with ra=thread_wrapper and aligned sp, push GreenThread(Ready, entry)")
+        // 给新线程分配独立的栈。
+        let stack = vec![0u8; STACK_SIZE];
+        let stack_top = stack.as_ptr() as usize + STACK_SIZE;
+
+        // 栈从高地址向低地址增长。
+        // 减去16字节留出空间，再向下对齐到16字节边界。
+        let aligned_sp = (stack_top - 16) & !15usize;
+
+        // 第一次切换到该线程时，ret 会跳到 thread_wrapper。
+        let ctx = TaskContext {
+            sp: aligned_sp as u64,
+            ra: thread_wrapper as *const () as usize as u64,
+            ..TaskContext::default()
+        };
+
+        self.threads.push(GreenThread {
+            ctx,
+            state: ThreadState::Ready,
+            _stack: Some(stack),
+            entry: Some(entry),
+        });
     }
 
     /// Run the scheduler until all threads (except the main one) are `Finished`.
@@ -146,12 +167,67 @@ impl Scheduler {
     /// 2. Loop: if all threads in `threads[1..]` are `Finished`, break; otherwise call `schedule_next()` (which may switch away and later return).
     /// 3. Clear `SCHEDULER` when done.
     pub fn run(&mut self) {
-        todo!("set SCHEDULER to self, loop until threads[1..] all Finished, call schedule_next, then clear SCHEDULER")
+        //todo!("set SCHEDULER to self, loop until threads[1..] all Finished, call schedule_next, then clear SCHEDULER")
+        unsafe {
+        // 让 yield_now() 和 thread_finished() 能找到当前调度器。
+            SCHEDULER = self as *mut Scheduler;
+        }
+
+        // threads[0] 是主线程，只检查后面创建的绿色线程。
+        while !self.threads[1..]
+            .iter()
+            .all(|thread| thread.state == ThreadState::Finished)
+        {
+            self.schedule_next();
+        }
+
+        unsafe {
+            // 调度结束，清除全局指针，避免留下悬空指针。
+            SCHEDULER = std::ptr::null_mut();
+        }
     }
 
     /// Find the next ready thread (starting from `current + 1` round-robin), mark current as `Ready` (if not `Finished`), mark next as `Running`, set `CURRENT_THREAD_ENTRY` if the next thread has an entry, then switch to it.
     fn schedule_next(&mut self) {
-        todo!("round-robin find next Ready, set current Ready (if not Finished), next Running, CURRENT_THREAD_ENTRY, then switch_context")
+        //todo!("round-robin find next Ready, set current Ready (if not Finished), next Running, CURRENT_THREAD_ENTRY, then switch_context")
+        let thread_count = self.threads.len();
+        let current = self.current;
+
+        // 从当前线程的下一个位置开始，循环寻找 Ready 线程。
+        let next = (1..=thread_count)
+            .map(|offset| (current + offset) % thread_count)
+            .find(|&index| self.threads[index].state == ThreadState::Ready);
+
+        // 没有可运行线程时，直接返回。
+        let Some(next) = next else {
+            return;
+        };
+
+        // 当前线程只是主动 yield 时，重新变成 Ready。
+        // 如果它已经 Finished，就不能再放回就绪队列。
+        if self.threads[current].state != ThreadState::Finished {
+            self.threads[current].state = ThreadState::Ready;
+        }
+
+        self.threads[next].state = ThreadState::Running;
+
+        // entry 只在新线程第一次运行时存在。
+        // thread_wrapper 会读取并调用它。
+        let next_entry = self.threads[next].entry.take();
+
+        // 先取得两个上下文的裸指针，避免同时借用 Vec 中的两个元素。
+        let old_ctx = self.threads[current].ctx.as_mut_ptr();
+        let new_ctx = self.threads[next].ctx.as_ptr();
+
+        // 必须在切换前更新 current。
+        self.current = next;
+
+        unsafe {
+            CURRENT_THREAD_ENTRY = next_entry;
+
+            // 保存旧线程上下文，恢复新线程上下文。
+            switch_context(&mut *old_ctx, &*new_ctx);
+        }
     }
 }
 
