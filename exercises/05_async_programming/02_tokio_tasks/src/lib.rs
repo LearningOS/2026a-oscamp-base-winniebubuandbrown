@@ -17,7 +17,25 @@ pub async fn concurrent_squares(n: usize) -> Vec<usize> {
     // TODO: Create n asynchronous tasks, each computing i * i
     // TODO: Collect all JoinHandle
     // TODO: Await each one to get result
-    todo!()
+    //todo!()
+    let mut handles: Vec<JoinHandle<usize>> = Vec::with_capacity(n);
+
+    // 先创建所有任务
+    for i in 0..n {
+        let handle = tokio::spawn(async move {
+            i * i
+        });
+        handles.push(handle);
+    }
+
+    // 再依次等待任务结果
+    let mut results = Vec::with_capacity(n);
+    for handle in handles {
+        let value = handle.await.expect("square task panicked");
+        results.push(value);
+    }
+
+    results
 }
 
 /// Concurrently execute multiple "time-consuming" tasks (simulated with sleep), return all results.
@@ -28,7 +46,27 @@ pub async fn parallel_sleep_tasks(n: usize, duration_ms: u64) -> Vec<usize> {
     // TODO: Create asynchronous task for each id in 0..n
     // TODO: Each task sleeps specified duration and returns its own id
     // TODO: Collect all results and sort
-    todo!()
+    //todo!()
+    let mut handles: Vec<JoinHandle<usize>> = Vec::with_capacity(n);
+
+    // 先启动所有休眠任务
+    for task_id in 0..n {
+        let handle = tokio::spawn(async move {
+            sleep(Duration::from_millis(duration_ms)).await;
+            task_id
+        });
+        handles.push(handle);
+    }
+
+    // 所有任务启动后，再等待并收集结果
+    let mut results = Vec::with_capacity(n);
+    for handle in handles {
+        let task_id = handle.await.expect("sleep task panicked");
+        results.push(task_id);
+    }
+
+    results.sort_unstable();
+    results
 }
 
 #[cfg(test)]
